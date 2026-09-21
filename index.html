@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TerraGuard | AI Landslide Monitoring</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">⛰</div>
+                <div>
+                    <h2>TerraGuard</h2>
+                    <span>AI Risk Monitoring</span>
+                </div>
+            </div>
+
+            <nav>
+                <a href="#" class="active">
+                    <span>⌂</span> Dashboard
+                </a>
+
+                <a href="#map-section">
+                    <span>◉</span> Risk Map
+                </a>
+
+                <a href="#locations">
+                    <span>⌖</span> Locations
+                </a>
+
+                <a href="#analytics">
+                    <span>▥</span> Analytics
+                </a>
+
+                <a href="#alerts">
+                    <span>⚠</span> Alerts
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>System Online</strong>
+                        <small>Last updated 2 min ago</small>
+                    </div>
+                </div>
+
+                <div class="profile">
+                    <div class="avatar">S</div>
+                    <div>
+                        <strong>SIH Team</strong>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <div>
+                    <p class="eyebrow">NORTH EASTERN REGION • INDIA</p>
+                    <h1>Risk Monitoring Dashboard</h1>
+                    <p class="subtitle">
+                        AI-powered landslide risk assessment and early warning system.
+                    </p>
+                </div>
+
+                <div class="top-actions">
+                    <button class="icon-btn">⌕</button>
+                    <button class="notification">
+                        🔔
+                        <span></span>
+                    </button>
+                    <button class="location-btn">
+                        📍 All Locations
+                    </button>
+                </div>
+
+            </header>
+
+
+            <!-- STAT CARDS -->
+            <section class="stats">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Monitored Areas</span>
+                        <div class="stat-icon">⌖</div>
+                    </div>
+
+                    <h2>128</h2>
+                    <p class="positive">↑ 12 new areas this month</p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>High Risk Areas</span>
+                        <div class="stat-icon danger">⚠</div>
+                    </div>
+
+                    <h2>07</h2>
+                    <p class="negative">↑ 2 from yesterday</p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Average Risk</span>
+                        <div class="stat-icon warning">◐</div>
+                    </div>
+
+                    <h2>34%</h2>
+                    <p class="positive">↓ 6% from yesterday</p>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>Active Alerts</span>
+                        <div class="stat-icon alert">!</div>
+                    </div>
+
+                    <h2>03</h2>
+                    <p class="negative">Requires attention</p>
+                </div>
+
+            </section>
+
+
+            <!-- MAIN GRID -->
+            <section class="dashboard-grid">
+
+                <!-- MAP -->
+                <div class="panel map-panel" id="map-section">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Regional Risk Map</h3>
+                            <p>Live visualization of monitored locations</p>
+                        </div>
+
+                        <button class="outline-btn">View Full Map →</button>
+                    </div>
+
+                    <div id="map"></div>
+
+                    <div class="map-legend">
+                        <span><i class="low"></i> Low</span>
+                        <span><i class="medium"></i> Moderate</span>
+                        <span><i class="high"></i> High</span>
+                        <span><i class="critical"></i> Critical</span>
+                    </div>
+
+                </div>
+
+
+                <!-- CURRENT RISK -->
+                <div class="panel risk-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Current Risk</h3>
+                            <p>Selected location</p>
+                        </div>
+
+                        <span class="live-badge">
+                            <span></span> LIVE
+                        </span>
+                    </div>
+
+
+                    <div class="risk-location">
+                        <div>
+                            <strong>Gangtok, Sikkim</strong>
+                            <span>Elevation: 1,650 m</span>
+                        </div>
+
+                        <span class="risk-tag high-tag">HIGH RISK</span>
+                    </div>
+
+
+                    <div class="risk-score">
+
+                        <div class="score-circle">
+                            <div>
+                                <strong id="riskScore">78</strong>
+                                <span>%</span>
+                            </div>
+                        </div>
+
+                        <div class="risk-description">
+                            <h4>High probability</h4>
+                            <p>
+                                Current environmental conditions indicate
+                                an elevated possibility of slope instability.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-factors">
+
+                        <div>
+                            <span>🌧 Rainfall</span>
+                            <strong>92 mm</strong>
+                        </div>
+
+                        <div>
+                            <span>💧 Soil Moisture</span>
+                            <strong>81%</strong>
+                        </div>
+
+                        <div>
+                            <span>📐 Slope</span>
+                            <strong>36°</strong>
+                        </div>
+
+                        <div>
+                            <span>🌡 Temperature</span>
+                            <strong>18°C</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECOND ROW -->
+            <section class="lower-grid">
+
+                <!-- ALERT -->
+                <div class="panel alert-panel" id="alerts">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Recent Alerts</h3>
+                            <p>Latest risk notifications</p>
+                        </div>
+
+                        <button class="text-btn">View all</button>
+                    </div>
+
+
+                    <div class="alert-item critical-alert">
+                        <div class="alert-symbol">!</div>
+
+                        <div>
+                            <strong>Critical Risk Detected</strong>
+                            <p>East Sikkim • 8 minutes ago</p>
+                        </div>
+
+                        <span>Critical</span>
+                    </div>
+
+
+                    <div class="alert-item high-alert">
+                        <div class="alert-symbol">⚠</div>
+
+                        <div>
+                            <strong>Heavy Rainfall Detected</strong>
+                            <p>West Meghalaya • 32 minutes ago</p>
+                        </div>
+
+                        <span>High</span>
+                    </div>
+
+
+                    <div class="alert-item medium-alert">
+                        <div class="alert-symbol">i</div>
+
+                        <div>
+                            <strong>Risk Level Increased</strong>
+                            <p>North Sikkim • 1 hour ago</p>
+                        </div>
+
+                        <span>Moderate</span>
+                    </div>
+
+                </div>
+
+
+                <!-- RISK TREND -->
+                <div class="panel chart-panel" id="analytics">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Risk Trend</h3>
+                            <p>Last 7 days</p>
+                        </div>
+
+                        <select>
+                            <option>7 Days</option>
+                            <option>30 Days</option>
+                        </select>
+                    </div>
+
+                    <div class="chart">
+
+                        <div class="y-axis">
+                            <span>100%</span>
+                            <span>75%</span>
+                            <span>50%</span>
+                            <span>25%</span>
+                            <span>0%</span>
+                        </div>
+
+                        <svg viewBox="0 0 600 220" preserveAspectRatio="none">
+
+                            <defs>
+                                <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-opacity=".25" />
+                                    <stop offset="100%" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+
+                            <path class="area" d="M0 170
+                               C80 150 100 165 150 130
+                               C200 100 220 125 270 105
+                               C320 80 340 100 390 75
+                               C440 50 470 80 510 55
+                               C550 35 570 50 600 30
+                               L600 220 L0 220 Z" />
+
+                            <path class="line" d="M0 170
+                               C80 150 100 165 150 130
+                               C200 100 220 125 270 105
+                               C320 80 340 100 390 75
+                               C440 50 470 80 510 55
+                               C550 35 570 50 600 30" />
+
+                        </svg>
+
+                    </div>
+
+                    <div class="chart-labels">
+                        <span>Mon</span>
+                        <span>Tue</span>
+                        <span>Wed</span>
+                        <span>Thu</span>
+                        <span>Fri</span>
+                        <span>Sat</span>
+                        <span>Sun</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- LOCATIONS -->
+            <section class="panel locations-panel" id="locations">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Monitored Locations</h3>
+                        <p>Current risk status across the region</p>
+                    </div>
+
+                    <button class="outline-btn">Export Report</button>
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>LOCATION</th>
+                                <th>RISK SCORE</th>
+                                <th>RAINFALL</th>
+                                <th>SOIL MOISTURE</th>
+                                <th>STATUS</th>
+                                <th>UPDATED</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <strong>Gangtok</strong>
+                                    <small>Sikkim</small>
+                                </td>
+
+                                <td><strong>78%</strong></td>
+                                <td>92 mm</td>
+                                <td>81%</td>
+
+                                <td>
+                                    <span class="status high-status">High</span>
+                                </td>
+
+                                <td>2 min ago</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <strong>Cherrapunji</strong>
+                                    <small>Meghalaya</small>
+                                </td>
+
+                                <td><strong>65%</strong></td>
+                                <td>74 mm</td>
+                                <td>69%</td>
+
+                                <td>
+                                    <span class="status moderate-status">Moderate</span>
+                                </td>
+
+                                <td>5 min ago</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <strong>Tawang</strong>
+                                    <small>Arunachal Pradesh</small>
+                                </td>
+
+                                <td><strong>43%</strong></td>
+                                <td>41 mm</td>
+                                <td>52%</td>
+
+                                <td>
+                                    <span class="status moderate-status">Moderate</span>
+                                </td>
+
+                                <td>8 min ago</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <strong>Aizawl</strong>
+                                    <small>Mizoram</small>
+                                </td>
+
+                                <td><strong>21%</strong></td>
+                                <td>18 mm</td>
+                                <td>38%</td>
+
+                                <td>
+                                    <span class="status low-status">Low</span>
+                                </td>
+
+                                <td>12 min ago</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <footer>
+                <span>TerraGuard AI © 2026</span>
+                <span>Designed for Smart India Hackathon</span>
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
